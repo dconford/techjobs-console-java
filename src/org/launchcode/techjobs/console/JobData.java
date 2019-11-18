@@ -15,7 +15,7 @@ import java.util.List;
  * Created by LaunchCode
  */
 public class JobData {
-
+// declarations
     private static final String DATA_FILE = "resources/job_data.csv";
     private static Boolean isDataLoaded = false;
 
@@ -80,7 +80,9 @@ public class JobData {
                 jobs.add(row);
             }
         }
-
+        if (jobs.size() ==0) {
+            System.out.println("No Values Matched the Search Term, Please try Again");
+        }
         return jobs;
     }
 

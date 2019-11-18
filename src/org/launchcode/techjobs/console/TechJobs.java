@@ -1,8 +1,6 @@
 package org.launchcode.techjobs.console;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -11,7 +9,7 @@ public class TechJobs {
 
     private static Scanner in = new Scanner(System.in);
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         // Initialize our field map with key/name pairs
         HashMap<String, String> columnChoices = new HashMap<>();
@@ -38,6 +36,7 @@ public class TechJobs {
                 String columnChoice = getUserSelection("List", columnChoices);
 
                 if (columnChoice.equals("all")) {
+                    //JobData.findAll();
                     printJobs(JobData.findAll());
                 } else {
 
@@ -92,7 +91,9 @@ public class TechJobs {
             for (Integer j = 0; j < choiceKeys.length; j++) {
                 System.out.println("" + j + " - " + choices.get(choiceKeys[j]));
             }
-
+            if (choiceKeys.length > 2) {
+                System.out.println("" + choiceKeys.length + " - NewAll Position");
+            }
             choiceIdx = in.nextInt();
             in.nextLine();
 
@@ -103,14 +104,17 @@ public class TechJobs {
                 validChoice = true;
             }
 
-        } while(!validChoice);
+        } while (!validChoice);
 
         return choiceKeys[choiceIdx];
     }
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-
-        System.out.println("printJobs is not implemented yet");
+        for (HashMap<String, String> someJob : someJobs) {
+            System.out.println("\n************");
+            for (Map.Entry<String, String> entry: someJob.entrySet())
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
     }
 }
