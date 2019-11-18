@@ -7,9 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -42,7 +40,7 @@ public class JobData {
                 values.add(aValue);
             }
         }
-
+        Collections.sort(values);
         return values;
     }
 
@@ -51,7 +49,8 @@ public class JobData {
         // load data, if not already loaded
         loadData();
 
-        return allJobs;
+        ArrayList<HashMap<String, String>> allJobsClone = (ArrayList<HashMap<String, String>>) allJobs.clone();
+        return allJobsClone;
     }
 
     /**
@@ -74,14 +73,32 @@ public class JobData {
 
         for (HashMap<String, String> row : allJobs) {
 
-            String aValue = row.get(column);
+            String aValue = row.get(column).toLowerCase();
 
             if (aValue.contains(value)) {
                 jobs.add(row);
             }
         }
-        if (jobs.size() ==0) {
-            System.out.println("No Values Matched the Search Term, Please try Again");
+        return jobs;
+    }
+
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+
+        //load data, if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+
+            for (Map.Entry<String, String> entry : row.entrySet()) {
+                String holder = entry.getValue().toLowerCase();
+
+                if (holder.contains(value)) {
+                    jobs.add(row);
+                    break;
+                }
+            }
         }
         return jobs;
     }
@@ -126,5 +143,4 @@ public class JobData {
             e.printStackTrace();
         }
     }
-
 }
